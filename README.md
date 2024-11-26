@@ -9,18 +9,42 @@ O objetivo principal do agente é:
 - **Tomar decisões autônomas** para maximizar suas chances de vitória ou, no pior caso, garantir um empate.
 - Fornecer uma interface gráfica interativa para o jogo.
 
-Este projeto integra:
-- **Sensores**: Capturam a jogada do jogador humano.
-- **Atuadores**: Atualizam o tabuleiro e realizam a jogada do agente.
-- **Base de Conhecimento**: Regras do jogo e o algoritmo MiniMax.
-- **Interface Gráfica**: Desenvolvida com `tkinter`.
+Este projeto busca criar um agente inteligente para o jogo da velha (Tic-Tac-Toe). O objetivo principal do agente é analisar o estado atual do tabuleiro e tomar decisões autônomas para maximizar suas chances de vitória ou, no pior caso, garantir um empate.
+
+Como o Agente Funciona:
+Sensores:
+
+O agente monitora o estado do tabuleiro a cada jogada do jogador humano.
+Ele verifica as células preenchidas (marcadas com "X" ou "O") para tomar decisões.
+O agente também avalia o tabuleiro para detectar se o jogador humano está prestes a ganhar ou se ele próprio pode vencer.
+Atuadores:
+
+O atuador do agente é a colocação do símbolo "O" em uma célula do tabuleiro após a avaliação das jogadas possíveis.
+O agente realiza sua jogada com base na avaliação feita pelo algoritmo Hill Climbing, atualizando o tabuleiro em tempo real.
+Base de Conhecimento:
+
+A base de conhecimento do agente é construída pelas regras do jogo e pela função heurística usada no algoritmo Hill Climbing.
+O Hill Climbing é uma técnica de otimização local que permite ao agente tomar decisões com base em movimentos que proporcionam a maior melhoria no estado atual do jogo.
+Método de Tomada de Decisão (Hill Climbing):
+
+O agente utiliza o algoritmo Hill Climbing para avaliar todas as possíveis jogadas no tabuleiro.
+Em vez de explorar todas as possibilidades como o MiniMax, o Hill Climbing foca em melhorar iterativamente o estado atual, movendo-se para o próximo estado com a maior "pontuação" de vitória.
+A cada jogada, o agente escolhe a ação que leva ao melhor resultado imediato (geralmente o que maximiza suas chances de vitória ou bloqueia o oponente).
+Interface Gráfica:
+
+A interface gráfica foi desenvolvida com a biblioteca tkinter, proporcionando uma experiência visual simples e intuitiva para o usuário.
+O tabuleiro é exibido como uma matriz 3x3, onde cada célula é um botão que pode ser clicado pelo jogador.
+Objetivos do Agente:
+Maximizar as chances de vitória do agente: O agente tenta sempre ganhar, utilizando o Hill Climbing para prever e reagir às jogadas do jogador.
+Evitar a derrota: Caso não seja possível ganhar, o agente faz o possível para empatar o jogo, evitando a perda.
+Jogo balanceado: O agente foi projetado para ser desafiador, mas não invencível, garantindo uma experiência divertida para o jogador humano.
 
 ---
 
 ## 🎯 Funcionalidades
 
 - Jogo interativo em uma interface gráfica.
-- Agente que utiliza MiniMax para prever e tomar decisões.
+- Agente inteligente utilizando o algoritmo Hill Climbing para previsão e tomada de decisões estratégicas.
 - Garantia de que o agente nunca perde.
 - Cenários de vitória, empate ou derrota simulados.
 
