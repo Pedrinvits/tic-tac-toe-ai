@@ -1,5 +1,4 @@
 import tkinter as tk
-import math
 
 class TicTacToe:
     def __init__(self):
@@ -38,8 +37,8 @@ class TicTacToe:
             self.agent_move()
 
     def agent_move(self):
-        """Decisão do agente usando MiniMax."""
-        _, move = self.minimax(self.board, True)
+        """Decisão do agente usando Hill Climbing."""
+        move = self.hill_climbing(self.board, "O")
         if move is not None:
             self.board[move] = "O"
             self.buttons[move].config(text="O")
@@ -51,39 +50,45 @@ class TicTacToe:
                 return
             self.current_player = "X"
 
-    def minimax(self, board, is_maximizing):
-        """Implementação do MiniMax."""
-        if self.check_winner("X"):
-            return -1, None
-        if self.check_winner("O"):
-            return 1, None
-        if "" not in board:
-            return 0, None
+    def hill_climbing(self, board, player):
+        """Implementação do Hill Climbing para encontrar a melhor jogada."""
+        best_move = None
+        best_score = -float('inf')
 
-        if is_maximizing:
-            best_score = -math.inf
-            best_move = None
-            for i in range(9):
-                if board[i] == "":
-                    board[i] = "O"
-                    score, _ = self.minimax(board, False)
-                    board[i] = ""
-                    if score > best_score:
-                        best_score = score
-                        best_move = i
-            return best_score, best_move
-        else:
-            best_score = math.inf
-            best_move = None
-            for i in range(9):
-                if board[i] == "":
-                    board[i] = "X"
-                    score, _ = self.minimax(board, True)
-                    board[i] = ""
-                    if score < best_score:
-                        best_score = score
-                        best_move = i
-            return best_score, best_move
+        for i in range(9):
+            if board[i] == "":
+                board[i] = player  # Simula a jogada
+                score = self.evaluate_board(board, player)
+                board[i] = ""  # Reverte a jogada
+
+                if score > best_score:
+                    best_score = score
+                    best_move = i
+
+        return best_move
+
+    def evaluate_board(self, board, player):
+        """Função heurística para avaliar o estado do tabuleiro."""
+        opponent = "X" if player == "O" else "O"
+        winning_lines = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],  # Linhas
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],  # Colunas
+            [0, 4, 8], [2, 4, 6],            # Diagonais
+        ]
+
+        score = 0
+
+        for line in winning_lines:
+            line_values = [board[i] for i in line]
+
+            # Se o agente está perto de ganhar
+            if line_values.count(player) == 2 and line_values.count("") == 1:
+                score += 10
+            # Se o adversário está perto de ganhar (bloquear)
+            if line_values.count(opponent) == 2 and line_values.count("") == 1:
+                score += 8
+
+        return score
 
     def check_winner(self, player):
         """Verifica se o jogador venceu."""
